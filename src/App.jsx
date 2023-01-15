@@ -1,7 +1,7 @@
 import './App.css';
 import { useState } from 'react';
 
-function App() {;
+function App() {
 	const [expense, setExpense] = useState('');
 	const [datetime, setDatetime] = useState('');
 	const [desc, setDesc] = useState('');
@@ -9,18 +9,29 @@ function App() {;
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transaction';
-		console.log(url)
+		console.log(url);
+		// 			fetch(import.meta.env.VITE_TEST, {
+		// 		method: 'GET',
+		// 		headers: {
+		// 			'content-type': 'application/json',
+		// 		},
+		// 	}).then((res) => {
+		// 		const data = res.json()
+		// 		console.log(data)
+		// 	}
+		// )};
 		fetch(url, {
 			method: 'POST',
 			headers: {
-				'content-type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
+				'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
 			},
-			body: JSON.stringify(expense, datetime, desc)
-		}).then((res) => {
-			const data = res.json()
-			console.log(data)
+			body: JSON.stringify(expense, datetime, desc),
 		})
+			.then((res) => {
+				const data = res.json();
+				console.log(data)
+			})
 	};
 
 	return (
