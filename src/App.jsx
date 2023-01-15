@@ -1,14 +1,50 @@
 import './App.css';
+import { useState } from 'react';
 
-function App() {
+function App() {;
+	const [expense, setExpense] = useState('');
+	const [datetime, setDatetime] = useState('');
+	const [desc, setDesc] = useState('');
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transaction';
+		console.log(url)
+		fetch(url, {
+			method: 'POST',
+			headers: {
+				'content-type': 'application/json',
+				'Access-Control-Allow-Origin': '*',
+			},
+			body: JSON.stringify(expense, datetime, desc)
+		}).then((res) => {
+			const data = res.json()
+			console.log(data)
+		})
+	};
+
 	return (
 		<div className='App'>
 			<main>
 				<h1>£400</h1>
-				<form>
-					<input type='text' placeholder='£700 Macbook Air' />
-					<input type='datetime-local' />
-					<input type='text' placeholder='description' />
+				<form onSubmit={handleSubmit}>
+					<input
+						type='text'
+						placeholder='£700 Macbook Air'
+						value={expense}
+						onChange={(e) => setExpense(e.target.value)}
+					/>
+					<input
+						type='datetime-local'
+						value={datetime}
+						onChange={(e) => setDatetime(e.target.value)}
+					/>
+					<input
+						type='text'
+						placeholder='description'
+						value={desc}
+						onChange={(e) => setDesc(e.target.value)}
+					/>
 					<div>
 						<button>Submit</button>
 					</div>
