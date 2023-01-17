@@ -1,16 +1,20 @@
 import './App.css';
 import { useState } from 'react';
 
+
 function App() {
 	const [expense, setExpense] = useState('');
 	const [datetime, setDatetime] = useState('');
 	const [desc, setDesc] = useState('');
 
+
+	
+
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transaction';
 		console.log(expense + '' + desc + '' + datetime);
-		const test = JSON.stringify({ expense, datetime, desc });
+		const test = JSON.stringify({ expense, datetime, desc }); 
 		console.log(test)
 		// 			fetch(import.meta.env.VITE_TEST, {
 		// 		method: 'GET',
