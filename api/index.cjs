@@ -18,9 +18,10 @@ app.get('/api/test', (req, res) => {
 
 app.post('/api/transaction/', async (req, res) => {
 	await mongoose.connect(process.env.VITE_MONGO_URL);
-	// console.log(req.body)
-	const { expense, datetime, desc } = req.body
-	const transactionCreate = await transaction.create({ expense, datetime, desc })
+	console.log(req.body)
+	const { expense, datetime, desc, price } = req.body
+	const transactionCreate = await transaction.create({ expense, datetime, desc, price })
+	
 	res.json(transactionCreate);
 })
 

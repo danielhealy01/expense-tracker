@@ -1,21 +1,24 @@
 import './App.css';
 import { useState } from 'react';
 
-
 function App() {
 	const [expense, setExpense] = useState('');
 	const [datetime, setDatetime] = useState('');
 	const [desc, setDesc] = useState('');
 
-
-	
-
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transaction';
+		const price = expense.split(' ')[0];
 		console.log(expense + '' + desc + '' + datetime);
-		const test = JSON.stringify({ expense, datetime, desc }); 
-		console.log(test)
+		const data = JSON.stringify({
+			expense: expense.substring(price.length + 1),
+			datetime,
+			desc,
+			price,
+		});
+		console.log(data);
+
 		// 			fetch(import.meta.env.VITE_TEST, {
 		// 		method: 'GET',
 		// 		headers: {
@@ -33,10 +36,14 @@ function App() {
 				'Access-Control-Allow-Origin': '*',
 				'Access-Control-Allow-Methods': 'GET,PUT,POST,DELETE,PATCH,OPTIONS',
 			},
-			body: test,
+			body: data,
 		}).then((res) => {
 			res.json().then((json) => {
-				console.log(json);
+				console.log(json)
+				setExpense('')
+				setDatetime('')
+				setDesc('')
+				
 			});
 		});
 	};
