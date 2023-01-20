@@ -1,10 +1,23 @@
 import './App.css';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 function App() {
 	const [expense, setExpense] = useState('');
 	const [datetime, setDatetime] = useState('');
 	const [desc, setDesc] = useState('');
+	const [transactions, setTransactions] = useState([])
+
+	async function getTransaction() {
+		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transactions';
+		const res = await fetch(url);
+		return await res.json();
+	}
+
+	useEffect(() => {
+		getTransaction().then(transactions => {
+			setTransactions(transactions)
+		});
+	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
@@ -39,11 +52,10 @@ function App() {
 			body: data,
 		}).then((res) => {
 			res.json().then((json) => {
-				console.log(json)
-				setExpense('')
-				setDatetime('')
-				setDesc('')
-				
+				console.log(json);
+				setExpense('');
+				setDatetime('');
+				setDesc('');
 			});
 		});
 	};

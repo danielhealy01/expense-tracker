@@ -14,6 +14,10 @@ const transactionSchema = new Schema({
 		type: String,
 		required: true,
 	},
+	price: {
+		type: String,
+		required: true,
+	}
 });
 
 const transactionModel = model('transaction', transactionSchema);
