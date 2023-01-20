@@ -5,7 +5,7 @@ function App() {
 	const [expense, setExpense] = useState('');
 	const [datetime, setDatetime] = useState('');
 	const [desc, setDesc] = useState('');
-	const [transactions, setTransactions] = useState([])
+	const [transactions, setTransactions] = useState([]);
 
 	async function getTransaction() {
 		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transactions';
@@ -14,23 +14,21 @@ function App() {
 	}
 
 	useEffect(() => {
-		getTransaction().then(transactions => {
-			setTransactions(transactions)
-		});
+		getTransaction().then(setTransactions);
 	}, []);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transaction';
 		const price = expense.split(' ')[0];
-		console.log(expense + '' + desc + '' + datetime);
+		// console.log(expense + '' + desc + '' + datetime);
 		const data = JSON.stringify({
 			expense: expense.substring(price.length + 1),
 			datetime,
 			desc,
 			price,
 		});
-		console.log(data);
+		// console.log(data);
 
 		// 			fetch(import.meta.env.VITE_TEST, {
 		// 		method: 'GET',
@@ -86,25 +84,21 @@ function App() {
 						<button>Submit</button>
 					</div>
 				</form>
-				<div className='transaction'>
-					<div className='itemHeader'>
-						<h2>Samsung Tv</h2>
-						<h2 className='price'>+£600</h2>
-					</div>
-					<div className='descrAndDate'>
-						<span>Description</span>
-						<span>20:08 12-08-2023</span>
-					</div>
-					<div className='transaction'>
-						<div className='itemHeader'>
-							<h2>onePlus 6T</h2>
-							<h2 className='priceNeg'>-£300</h2>
-						</div>
-						<div className='descrAndDate'>
-							<span>Description</span>
-							<span>22:01 12-06-2023</span>
-						</div>
-					</div>
+				<div>		
+					{transactions.map((transaction) => {
+						return (
+							<div className='transaction' key={transaction._id}>
+								<div className='itemHeader'>
+									<h2>{transaction.expense}</h2>
+									<h2 className='priceNeg'>{transaction.price}</h2>
+								</div>
+								<div className='descrAndDate'>
+									<span>{transaction.desc}</span>
+									<span>{transaction.datetime}</span>
+								</div>
+							</div>
+						);
+					})}
 				</div>
 			</main>
 		</div>
