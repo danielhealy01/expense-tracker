@@ -15,18 +15,19 @@ function App() {
 
 	useEffect(() => {
 		getTransaction().then(setTransactions);
-	}, []);
+	}, [expense]);
 
 	const handleSubmit = (e) => {
 		e.preventDefault();
 		const url = import.meta.env.VITE_REACT_APP_API_URL + '/transaction';
-		const price = expense.split(' ')[0];
-		// console.log(expense + '' + desc + '' + datetime);
+		const price = expense
+		const newPrice = price.split(' ')[0]; 
+	
 		const data = JSON.stringify({
-			expense: expense.substring(price.length + 1),
+			expense: expense.substring(newPrice.length + 1),
 			datetime,
 			desc,
-			price,
+			price: newPrice.slice(1),
 		});
 		// console.log(data);
 
@@ -58,10 +59,17 @@ function App() {
 		});
 	};
 
+	let balance = 0;
+	for (const transaction of transactions) {
+		// balance += Number(transaction.price)
+		balance += +transaction.price;
+	}
+
 	return (
 		<div className='App'>
 			<main>
-				<h1>£400</h1>
+				{/* <h1>£400</h1> */}
+				<h1>£{balance.toFixed(2)}</h1>
 				<form onSubmit={handleSubmit}>
 					<input
 						type='text'
@@ -84,7 +92,7 @@ function App() {
 						<button>Submit</button>
 					</div>
 				</form>
-				<div>		
+				<div>
 					{transactions.map((transaction) => {
 						return (
 							<div className='transaction' key={transaction._id}>
